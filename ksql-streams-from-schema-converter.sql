@@ -45,7 +45,8 @@ CREATE OR REPLACE STREAM ${schemaName}_MULTIVALUE WITH (KAFKA_TOPIC='${schemaNam
   DATA.TABLE_NAME TABLE_NAME,
   DATA.COMMIT_SCN COMMIT_SCN,
   DATA.COMMIT_ACTION COMMIT_ACTION,
-  PARSE_T24_MULTIVAL(DATA.RECID, DATA.XMLRECORD, '${schemaName}_MULTIVALUE', ARRAY[''], ARRAY[''], '#') XMLRECORD --chọn delimiter nào ko xuất hiện trong value gốc VD:#
+  ${listSelectedField}
+  PARSE_T24_MULTIVAL(DATA.RECID, DATA.XMLRECORD, '${schemaName}_MULTIVALUE', ARRAY[${vm}], ARRAY[${vs}], '#') XMLRECORD --chọn delimiter nào ko xuất hiện trong value gốc VD:#
 FROM FBNK_COLLATERAL_MAPPED DATA
 EMIT CHANGES;
 
