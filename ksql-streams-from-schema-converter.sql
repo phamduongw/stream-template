@@ -33,6 +33,49 @@ SELECT
 FROM ${schemaName} EMIT CHANGES;
 
 
+-- DDL_MULTIVALUE
+-- ddl multivalue
+  CREATE TABLE DW_${procName}
+   (  RECID VARCHAR2(200)  NOT NULL,
+    V_M NUMBER NOT NULL,
+    V_S NUMBER NOT NULL,
+ 
+ 
+ 
+    COMMIT_SCN NUMBER,
+    COMMIT_ACTION VARCHAR2(255),
+    FLAG_STATUS VARCHAR2(255,)
+    COMMIT_TS TIMESTAMP (6),  
+    REPLICAT_TS TIMESTAMP (6),
+    STREAM_TS TIMESTAMP (6),
+    TIME_UPDATE TIMESTAMP (6),
+  BANKING_DATE DATE NOT NULL) ;
+-- Create/Recreate indexes
+-- Create/Recreate primary, unique and foreign key constraints
+alter table DW_${procName}
+  add constraint DW_${procName}_PK primary key (RECID, BANKING_DATE,V_M, V_S);
+
+
+-- DDL_SINGLE
+-- ddl single
+CREATE TABLE DW_${procName}
+   (  RECID VARCHAR2(200)  NOT NULL,
+ 
+ 
+ 
+    COMMIT_SCN NUMBER,
+    COMMIT_ACTION VARCHAR2(255),
+    COMMIT_TS TIMESTAMP (6),  
+    REPLICAT_TS TIMESTAMP (6),
+    STREAM_TS TIMESTAMP (6),
+    TIME_UPDATE TIMESTAMP (6),
+  BANKING_DATE DATE NOT NULL) ;
+-- Create/Recreate indexes
+-- Create/Recreate primary, unique and foreign key constraints
+alter table DW_${procName}
+  add constraint DW_${procName}_PK primary key (RECID, BANKING_DATE);
+
+
 -- MULTIVALUE
 -- parse multivalue stream
 CREATE OR REPLACE STREAM ${schemaName}_MULTIVALUE WITH (KAFKA_TOPIC='${schemaName}_MULTIVALUE', PARTITIONS=3) AS SELECT
